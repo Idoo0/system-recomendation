@@ -1,13 +1,30 @@
 from fastapi import APIRouter
-from config.db import conn
-# from schemas.transaction import transactionsEntity
-
+from controller.getRecomendationByMemberId import getRecomendByMember
+from controller.getRecomendationByProductId import getRecomendByProduct
+from controller.getRecomendationInitial import getRecomendInitial
+from utils.response import success, error
 recomendation = APIRouter()
 
 @recomendation.get('/getRecomendationByMemberId')
 async def getRecomendationByMemberId(id):
-  return None
+    result = getRecomendByMember(id)
+    if result:
+        return success("Product recommendations successfully retrieved!", result)
+    else:
+        return error("Unable to retrieve product recommendations!")
 
 @recomendation.get('/getRecomendationByProductId')
 async def getRecomendationByProductId(id):
-  return None
+    result = getRecomendByProduct(id)
+    if result:
+        return success("Product recommendations successfully retrieved!", result)
+    else:
+        return error("Unable to retrieve product recommendations!")
+
+@recomendation.get('/testgetRecomendationInitial')
+async def getRecomendationInitial():
+    result = getRecomendInitial()
+    if result:
+        return success("Product recommendations successfully retrieved!", result)
+    else:
+        return error("Unable to retrieve product recommendations!")
